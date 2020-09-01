@@ -1,8 +1,9 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState, useCallback } from 'react';
 import { IconBaseProps } from 'react-icons';
+import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import { Container } from './styles';
+import { Container, Error } from './styles';
 
 // Sempre que é preciso chamar uma função dentro de outra função( ou componente)
 // para a função nao ser criada toda hora quando o componente for renderizado novamente,
@@ -38,7 +39,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isFilled={isFilled} isFocused={isFocused} >
+    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused} >
       {Icon && <Icon size={20} />} {/* Verifica se existe o icone e coloca em tela */}
       <input
         onFocus={handleInputFocus}
@@ -46,6 +47,8 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
         defaultValue={defaultValue}
         ref={inputRef}
         {...rest} />
+
+        {error && <Error title={error}><FiAlertCircle color="#c53030" size={20} /></Error>}
     </Container>
   )
 };
